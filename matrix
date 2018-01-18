@@ -167,6 +167,39 @@ int summatrix(int strok, int stolbchov, int **m){
     return 0;
 }
 
+int transportirovka (int strok, int stolbchov, int **m){
+    int **m1 = nullptr;
+    int i;
+    int j;
+    
+    if (strok!=0){ 
+
+        m1 = new int * [stolbchov]; 
+        for(i=0; i<stolbchov; i++){
+            m1[i]=new int [strok];
+        }
+        
+        for(i=0; i<stolbchov; i++){
+            for(j=0; j<strok; j++){
+                m1[i][j]=m[j][i];
+            }
+        }
+        
+        vyvodmatrix(stolbchov, strok, m1);
+        
+        for(i=0; i<stolbchov; i++) {
+            delete [] m1[i];
+        }
+        delete [] m1;
+
+    }else{
+        cout << "Матрица пустая " << endl;
+    }
+    
+    return 0;
+}
+
+
 int main(int argc,char*argv[]) {
 	int **m=nullptr;
     int i=0;
@@ -256,6 +289,10 @@ int main(int argc,char*argv[]) {
             
             case '3':
                 umnogmatrix(strok, stolbchov, m);
+            break;
+            
+            case '4':
+                transportirovka(strok, stolbchov, m);
             break;
      
             default:
