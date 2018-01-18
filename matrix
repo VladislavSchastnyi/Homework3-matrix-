@@ -1,0 +1,182 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+
+int umnogmatrix(int strok, int stolbchov, int **m){
+	int **m1=nullptr;
+    int strok1=0;
+	int stolbchov1=0;
+    
+    if (strok!=0){ 
+        
+        for(int i=0; i<strok; i++){
+            for(int j=0; j<stolbchov; j++){
+                //m[i][j]=m[i][j] + m[i][j];
+            }
+        }
+    }else{
+        cout << "Матрица пустая " << endl;
+    }
+    
+    return 0;
+}
+
+int summatrix(int strok, int stolbchov, int **m){
+    int **m1 = nullptr;
+    int i;
+    int j;
+
+    if (strok!=0){ 
+        
+            
+        m1 = new int * [strok]; 
+        for(i=0; i<strok; i++){
+            m1[i]=new int [stolbchov];
+        }
+        
+        cout << "Введите матрицу " << strok << "x" << stolbchov << ":" << endl;
+        
+        for(i=0; i<strok; i++) {
+            for(j=0; j<stolbchov; j++){
+                cin >> m1[i][j];
+            }
+        }
+        
+        for(i=0; i<strok; i++){
+            for(j=0; j<stolbchov; j++){
+                m[i][j]=m[i][j] + m1[i][j];
+            }
+        }
+        
+        for(i=0; i<strok; i++) {
+            delete [] m1[i];
+        }
+        delete [] m1;
+
+    }else{
+        cout << "Матрица пустая " << endl;
+    }
+    
+    return 0;
+}
+
+int vyvodmatrix(int strok, int stolbchov, int **m){
+    if (strok!=0){ 
+        for(int i=0; i<strok; i++){
+            for(int j=0; j<stolbchov; j++){
+                cout << m[i][j] << ' ';
+            }
+            cout << endl;
+        }
+    }else{
+        cout << "Матрица пустая " << endl;
+    }
+    return 0;
+}
+
+int main(int argc,char*argv[]) {
+	int **m=nullptr;
+    int i=0;
+    int strok=0;
+	int stolbchov=0;
+	int correct=1;
+	char c=0;
+	char operation = 'c';
+	
+	if(argc!=1){
+	
+    	for(i=0; i<strlen(argv[1]); i++){
+    	    c=(char)argv[1][i];
+    		
+    		if((c<'0')||(c>'9')){
+        		if((c=='x')&&(i!=0)){
+        		    if( (strok=atoi(argv[1])) !=0){
+            		    correct=0;
+        		    }
+        		}
+    		    break;
+    		}
+        }
+        
+        if (correct==1){
+            cerr << "Некорректная командная строка " << endl;
+            return 1;
+        }
+        
+        i++;
+        
+        if((stolbchov=atoi(&(argv[1][i]))) ==0){
+            cerr << "Некорректная командная строка " << endl;
+            return 1;
+        }
+        
+    	for(; i<strlen(argv[1]); i++){
+    	    c=(char)argv[1][i];
+    	    
+    		if((c<'0')||(c>'9')){
+        	    correct=1;
+      		    break;
+    		}
+        }
+    
+        if (correct==1){
+            cerr << "Некорректная командная строка " << endl;
+            return 1;
+        }
+    
+        m = new int * [strok]; 
+        for(i=0; i<strok; i++){
+            m[i]=new int [stolbchov];
+        }
+    
+        for(i=0; i<strok; i++){
+            for(int j=0; j<stolbchov; j++){
+                m[i][j]=0;
+                if ((i*stolbchov+j+1+1)<argc){
+                    m[i][j]=atoi(argv[i*stolbchov+j+1+1]);
+                }
+            }
+        }
+	}
+    
+    while(operation != 'e'){
+        cout << endl;
+        cout << "Выберите одну из операций:" << endl;
+        cout << "1. Вывести матрицу" << endl;
+        cout << "2. Сложить матрицу" << endl;
+        cout << "3. Умножить матрицу" << endl;
+        cout << "4. Транспонировать матрицу" << endl;
+        cout << "5. Сохранить в файл" << endl;
+        cout << "6. Загрузить из файла" << endl;
+        cout << "7. Сортировать матрицу" << endl;
+
+        cin >> operation;
+    
+        switch(operation){
+            case '1':
+                vyvodmatrix(strok, stolbchov, m);
+            break;
+            
+            case '2':
+                summatrix(strok, stolbchov, m);
+            break;
+            
+            case '3':
+                umnogmatrix(strok, stolbchov, m);
+            break;
+     
+            default:
+                cerr << "Vveden nevernij parametr" << endl;
+            break;
+        }
+    }
+
+    for(i=0; i<strok; i++) {
+        delete [] m[i];
+    }
+    delete [] m;
+
+   return 0;	
+}
