@@ -2,20 +2,126 @@
 #include <cstring>
 
 using namespace std;
-
-
-int umnogmatrix(int strok, int stolbchov, int **m){
-	int **m1=nullptr;
-    int strok1=0;
-	int stolbchov1=0;
-    
+int vyvodmatrix(int strok, int stolbchov, int **m){
     if (strok!=0){ 
-        
         for(int i=0; i<strok; i++){
             for(int j=0; j<stolbchov; j++){
-                //m[i][j]=m[i][j] + m[i][j];
+                cout << m[i][j] << ' ';
+            }
+            cout << endl;
+        }
+    }else{
+        cout << "Матрица пустая " << endl;
+    }
+    return 0;
+}
+
+int umnogmatrix(int strok, int stolbchov, int **m){
+    int **m1 = nullptr;
+    int **m2 = nullptr;
+    int i;
+    int j;
+    int k;
+    char c;
+    char s[255];
+    int correct=1;
+    int stolbchov1;
+    int strok1;
+
+    if (strok!=0){ 
+        
+        cout << "Введите размер матрицы: " << endl;
+        
+        cin >> s;
+        
+        
+    	for(i=0; i<strlen(s); i++){
+    	    c=(char)s[i];
+    		
+    		if((c<'0')||(c>'9')){
+        		if((c=='x')&&(i!=0)){
+        		    if( (strok1=atoi(s)) !=0){
+            		    correct=0;
+        		    }
+        		}
+    		    break;
+    		}
+        }
+        
+        if (correct==1){
+            cerr << "Некорректный размер " << endl;
+            return 1;
+        }
+        
+        i++;
+        
+        if((stolbchov1=atoi(&(s[i]))) ==0){
+            cerr << "Некорректный размер " << endl;
+            return 1;
+        }
+        
+    	for(; i<strlen(s); i++){
+    	    c=(char)s[i];
+    	    
+    		if((c<'0')||(c>'9')){
+        	    correct=1;
+      		    break;
+    		}
+        }
+        
+        if (correct==1){
+            cerr << "Некорректный размер " << endl;
+            return 1;
+        }
+            
+        if(strok != stolbchov1) {
+            cerr << "Неверный размер " << endl;
+            return 1;
+        }
+         
+        
+            
+        m1 = new int * [strok1]; 
+        for(i=0; i<strok1; i++){
+            m1[i]=new int [stolbchov1];
+        }
+        
+        m2 = new int * [strok]; 
+        for(i=0; i<strok; i++){
+            m2[i]=new int [stolbchov1];
+        }
+        
+        for(i=0; i<strok1; i++) {
+            for(j=0; j<stolbchov1; j++){
+                cin >> m1[i][j];
             }
         }
+        
+        for(i=0; i<strok; i++) {
+            for(j=0; j<stolbchov1; j++){
+                m2[i][j]=0;
+            }
+        }
+        
+        for(i=0; i<strok; i++){
+            for(j=0; j<stolbchov1; j++){
+               for(k=0; k<stolbchov; k++) {
+                    m2[i][j]+=m[i][k] * m1[k][j];
+               }
+            }   
+        }
+        
+        vyvodmatrix(strok, stolbchov1, m2);
+        
+        for(i=0; i<strok; i++) {
+            delete [] m2[i];
+        }
+        delete [] m2;
+        for(i=0; i<strok1; i++) {
+            delete [] m1[i];
+        }
+        delete [] m1;
+        
     }else{
         cout << "Матрица пустая " << endl;
     }
@@ -29,8 +135,7 @@ int summatrix(int strok, int stolbchov, int **m){
     int j;
 
     if (strok!=0){ 
-        
-            
+
         m1 = new int * [strok]; 
         for(i=0; i<strok; i++){
             m1[i]=new int [stolbchov];
@@ -59,20 +164,6 @@ int summatrix(int strok, int stolbchov, int **m){
         cout << "Матрица пустая " << endl;
     }
     
-    return 0;
-}
-
-int vyvodmatrix(int strok, int stolbchov, int **m){
-    if (strok!=0){ 
-        for(int i=0; i<strok; i++){
-            for(int j=0; j<stolbchov; j++){
-                cout << m[i][j] << ' ';
-            }
-            cout << endl;
-        }
-    }else{
-        cout << "Матрица пустая " << endl;
-    }
     return 0;
 }
 
