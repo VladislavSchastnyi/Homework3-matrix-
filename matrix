@@ -199,6 +199,122 @@ int transportirovka (int strok, int stolbchov, int **m){
     return 0;
 }
 
+int vvodfile(int *strok, int *stolbchov, int ***m){
+  FILE *f;
+  char filename[255];
+  char matrix[255];
+  int i;
+  char c;
+  int correct=1;
+
+  if ((*strok)==0){ 
+
+    cout << "Укажите путь к файлу: ";
+    cin >> filename ;
+
+    if((f=fopen(filename, "r"))!=NULL){
+      fscanf(f, "%s", matrix);
+      cout << matrix << endl;
+
+      for(i=0; i<strlen(matrix); i++){
+        c=(char)matrix[i];
+
+        if((c<'0')||(c>'9')){
+          if((c=='x')&&(i!=0)){
+            if( ((*strok)=atoi(matrix)) !=0){
+              correct=0;
+            }
+          }
+          break;
+        }
+      }
+
+      if (correct==0){
+        i++;
+
+        if(((*stolbchov)=atoi(&(matrix[i]))) ==0){
+          correct=1;
+        }else{
+
+          for(; i<strlen(matrix); i++){
+            c=matrix[i];
+
+            if((c<'0')||(c>'9')){
+              correct=1;
+              break;
+            }
+          }
+        }
+
+        if (correct==0){
+          (*m) = new int * [*strok]; 
+          for(i=0; i<(*strok); i++){
+            (*m)[i]=new int [*stolbchov];
+          }
+
+          for(i=0; i<(*strok); i++){
+            for(int j=0; j<(*stolbchov); j++){
+              (*m)[i][j]=0;
+              if (fscanf(f, "%s", matrix) != EOF){
+                (*m)[i][j]=atoi(matrix);
+              }else{
+                break;
+              }
+            }
+          }
+        }
+      }
+      
+      if(correct==1){
+        (*strok)=0;
+        (*stolbchov)=0;
+      }
+      fclose(f);
+    }else{
+      cout << "Ошибка открытия файла" << endl;
+    }
+  }else{
+    cout << "Матрица уже инициализирована " << endl;
+  }
+
+  return 0;
+}
+
+int vyvodfile(int strok, int stolbchov, int **m){
+  FILE *f;
+  char filename[255];
+  char d='y';
+  
+  if (strok!=0){ 
+    cout << "Укажите название файла:";
+    cin >> filename ;
+
+    if((f=fopen(filename, "r"))!=NULL){
+      fclose(f);
+      cout << "Перезаписать файл? (y, n): ";
+      cin >> d;
+    }
+
+    if(d=='y'){
+      if((f=fopen(filename, "w"))!=NULL){
+        for(int i=0; i<strok; i++){
+          for(int j=0; j<stolbchov; j++){
+            fprintf(f, "%d ", m[i][j]);
+          }
+          fprintf(f, "\n");
+        }
+        fclose(f);
+      }else{
+        cout << "Error open file" << endl;
+      }
+    }
+  }else{
+    cout << "Матрица пустая " << endl;
+  }
+
+  return 0;
+}
+
 
 int main(int argc,char*argv[]) {
 	int **m=nullptr;
@@ -293,6 +409,14 @@ int main(int argc,char*argv[]) {
             
             case '4':
                 transportirovka(strok, stolbchov, m);
+            break;
+            
+            case '5':
+                vyvodfile(strok, stolbchov, m);
+            break;
+
+            case '6':
+              vvodfile(&strok, &stolbchov, &m);
             break;
      
             default:
