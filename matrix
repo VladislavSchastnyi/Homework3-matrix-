@@ -314,32 +314,34 @@ int vyvodfile(int strok, int stolbchov, int **m){
   return 0;
 }
 
-int classiksortirovka1(int strok, int stolbchov, **m) {
+int classiksortirovka1(int strok, int stolbchov, int **m) {
     int i;
     int j;
-    for (int i = 0; i < strok * stolbchov; i++)
-		for (int j = 0; j < strok * stolbchov; j++) {
-			if (m[j] > m[i]) swap(m[j], m[i]);
+
+    for (i = 0; i < strok * stolbchov; i++)
+		for (j = 0; j < strok * stolbchov; j++) {
+			if ((*m)[j] > (*m)[i]) swap((*m)[j], (*m)[i]);
 		}
+
+    return 1;		
 }
 
-int classiksortirovka(int strok, int stolbchov, **m) {
+int classiksortirovka(int strok, int stolbchov, int ***m) {
     int i;
     int j;
-    iny k;
-	int *m = new int[strok * stolbchov];
-	for (int i = 0, k = 0; i < strok; i++)
-		for (int j = 0; j < stolbchov; j++) m[k++] = matrix[i][j];
-	classiksortirovka1(int strok, int stolbchov, &m);
-
-	for (int i = 0, k = 0; i < stolbchov; i++)
-		for (int j = 0; j < strok; j++) {
-			if (i % 2 == 0 || i == 0)
-				matrix[j][i] = m[k++];
-			else if (i % 2 == 1)
-				matrix[x - j - 1][i] = m[k++];
+    int k;
+	int *m1 = new int[strok * stolbchov];
+	
+	for (i = 0, k = 0; i < strok; i++)
+		for (j = 0; j < stolbchov; j++) {
+		    m1[k++] = (*m)[i][j];  // копирование эл-та матрицы в эл-т массива
 		}
-	delete[] m;
+	classiksortirovka1(strok, stolbchov, &m1);
+    
+    for (i = 0, k = 0; i < strok; i++)
+		for (j = 0; j < stolbchov; j++) (*m)[i][j] = m1[k++];
+
+	delete[] m1;
 }
 
 int main(int argc,char*argv[]) {  // argv - массив указателей на строки параметров командной строки, argc - кол-во параметров + 1
@@ -446,7 +448,7 @@ int main(int argc,char*argv[]) {  // argv - массив указателей н
             break;
             
             case '7':
-              classiksortirovka(strok, stolbchov, m);
+              classiksortirovka(strok, stolbchov, &m);
             break;
      
             default:
