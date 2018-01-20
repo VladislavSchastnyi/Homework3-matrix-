@@ -444,6 +444,10 @@ int main(int argc,char*argv[]) {  // argv - массив указателей н
             case '6':
               vvodfile(&strok, &stolbchov, &m);
             break;
+            
+            case '7':
+              classiksortirovka(strok, stolbchov, m);
+            break;
      
             default:
                 cerr << "Vveden nevernij parametr" << endl;
