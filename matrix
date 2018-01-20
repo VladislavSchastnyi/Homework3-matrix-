@@ -316,8 +316,8 @@ int vyvodfile(int strok, int stolbchov, int **m){
 }
 
 
-int main(int argc,char*argv[]) {
-	int **m=nullptr;
+int main(int argc,char*argv[]) {  // argv - массив указателей на строки параметров командной строки, argc - кол-во параметров + 1
+	int **m=nullptr;   
     int i=0;
     int strok=0;
 	int stolbchov=0;
@@ -325,14 +325,14 @@ int main(int argc,char*argv[]) {
 	char c=0;
 	char operation = 'c';
 	
-	if(argc!=1){
+	if(argc!=1){  // проверка на наличие параметров входной строки
 	
-    	for(i=0; i<strlen(argv[1]); i++){
+    	for(i=0; i<strlen(argv[1]); i++){  
     	    c=(char)argv[1][i];
     		
     		if((c<'0')||(c>'9')){
         		if((c=='x')&&(i!=0)){
-        		    if( (strok=atoi(argv[1])) !=0){
+        		    if( (strok=atoi(argv[1])) !=0){    // преобразование массива символов в число
             		    correct=0;
         		    }
         		}
@@ -366,7 +366,7 @@ int main(int argc,char*argv[]) {
             return 1;
         }
     
-        m = new int * [strok]; 
+        m = new int * [strok];    // выделение памяти под указатели на столбцы
         for(i=0; i<strok; i++){
             m[i]=new int [stolbchov];
         }
