@@ -353,6 +353,8 @@ int main(int argc,char*argv[]) {  // argv - массив указателей н
 	char c=0;
 	char operation = 'c';
 	
+	setlocale(LC_ALL, "Russian");
+	
 	if(argc!=1){  // проверка на наличие параметров входной строки
 	
     	for(i=0; i<strlen(argv[1]); i++){  
